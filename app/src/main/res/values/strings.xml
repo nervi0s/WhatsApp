@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">WhatsApp</string>
+    <string name="item_estados">Estados</string>
+    <string name="item_llamadas">Llamadas</string>
+    <string name="item_camara">Cámara</string>
+    <string name="item_chats">Chats</string>
+    <string name="item_conf">Configuración</string>
+    <string name="item_cuenta">Cuenta</string>
+    <string name="item_privacidad">Privacidad</string>
+    <string name="item_ayuda">Ayuda</string>
 </resources>

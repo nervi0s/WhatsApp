@@ -36,7 +36,7 @@ public class ChatsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
+        System.out.println("asdfgdkjasdhkjasdhjkashdjkashdkjashdjkashdkjashdkjsh");
         Chat chat = chats.get(i);
 
         if (view == null) {
@@ -45,9 +45,12 @@ public class ChatsAdapter extends BaseAdapter {
         }
 
         final ImageView chatImage = view.findViewById(R.id.imagenChat);
-        final TextView cuerpoMensaje = view.findViewById(R.id.cuerpoMensaje);
+        final TextView chatTitle = view.findViewById(R.id.tituloMensaje);
+        final TextView chatBody = view.findViewById(R.id.cuerpoMensaje);
+
         chatImage.setImageBitmap(chat.getImg());
-        cuerpoMensaje.setText(chat.getBody());
+        chatTitle.setText(chat.getTitle());
+        chatBody.setText(chat.getBody());
 
         return view;
     }

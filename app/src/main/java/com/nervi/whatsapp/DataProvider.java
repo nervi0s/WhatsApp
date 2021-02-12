@@ -4,9 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,10 +52,11 @@ public class DataProvider {
                     if (bodyMsg[0].length() > 40) {
                         bodyMsg[0] = bodyMsg[0].substring(0, 41) + "... ";
                     }
+
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            chats.add(new Chat("Título", bodyMsg[0], bitmapImage[0]));
+                            chats.add(new Chat("Somos programadores ", bodyMsg[0], bitmapImage[0]));
                             chatsAdapter.notifyDataSetChanged();
                         }
                     });
@@ -83,15 +81,9 @@ public class DataProvider {
         return "";
     }
 
-    public RoundedBitmapDrawable getRoundedImage (Bitmap bm) {
-        Bitmap copiaBitmap = bm.copy(bm.getConfig(),true);
-        copiaBitmap.setHeight(100);
-        copiaBitmap.setWidth(100);
-        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(null, copiaBitmap);
-
-        rbd.setCornerRadius(copiaBitmap.getHeight());
-
-        return rbd;
+    public String getRandomTitle() {
+        //ToDo
+        return "";
     }
 
 }

@@ -1,11 +1,17 @@
 package com.nervi.whatsapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,6 +38,33 @@ public class MainActivity extends AppCompatActivity {
         chatList.setAdapter(chatsAdapter);
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.itemCamera) {
+            System.out.println("LOL");
+            openCamera();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        System.out.println(cameraIntent.resolveActivity(getPackageManager()));
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            System.out.println("C TEST");
+            startActivityForResult(cameraIntent, 1);
+        }
     }
 
     public void generateRandomChat(View view) {

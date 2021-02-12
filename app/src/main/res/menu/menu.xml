@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/item_estados" />
+    <item android:title="@string/item_llamadas" />
+    <item
+        android:id="@+id/itemCamera"
+        android:title="@string/item_camara" />
+    <item android:title="@string/item_chats" />
+    <item android:title="@string/item_conf" >
+        <menu >
+            <item android:title="@string/item_cuenta" />
+            <item android:title="@string/item_chats" />
+            <item android:title="@string/item_privacidad" />
+            <item android:title="@string/item_ayuda" />
+        </menu>
+    </item>
+</menu>

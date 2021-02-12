@@ -15,10 +15,6 @@
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars" />
 
-
-
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,8 +23,8 @@
         android:layout_marginLeft="10dp">
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="200dp"
+            android:id="@+id/tituloMensaje"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
@@ -39,7 +35,7 @@
 
         <TextView
             android:id="@+id/cuerpoMensaje"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Hola que tal" />
