@@ -1,14 +1,16 @@
 package com.nervi.whatsapp;
 
+import android.graphics.Bitmap;
+
 public class Chat {
     private final String title;
     private final String body;
-    private final String imgUrl;
+    private final Bitmap img;
 
-    public Chat(String title, String body, String imgUrl) {
+    public Chat(String title, String body, Bitmap img) {
         this.title = title;
         this.body = body;
-        this.imgUrl = imgUrl;
+        this.img = img;
     }
 
     public String getTitle() {
@@ -19,7 +21,7 @@ public class Chat {
         return body;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public Bitmap getImg() {
+        return img;
     }
 }

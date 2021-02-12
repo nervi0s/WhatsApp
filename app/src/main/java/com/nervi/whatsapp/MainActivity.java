@@ -2,17 +2,24 @@ package com.nervi.whatsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ListView chatList;
-    private ArrayList<Chat> chats = new ArrayList<>();
-
-    //private Chat[] chats = {new Chat("Título", "Cuerpo", "imgUrl")};
+    private final ArrayList<Chat> chats = new ArrayList<>();
+    private ChatsAdapter chatsAdapter;
+    protected Handler mainHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,28 +27,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         chatList = findViewById(R.id.listaChats);
-        generate10RandomsChats(null);
-        chatList.setAdapter(new ChatsAdapter(this, chats));
+
+        chatsAdapter = new ChatsAdapter(this, chats);
+        chatList.setAdapter(chatsAdapter);
+
+
     }
 
-    public void generate10RandomsChats(View view) {
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        chats.add(new Chat("Título", "Cuerpo", "imgUrl"));
-        //TODO
+    public void generateRandomChat(View view) {
+
+        DataProvider provider = new DataProvider();
+        provider.getUrlImage(chats, chatsAdapter, mainHandler);
+        //chats.add(new Chat("Título", "Cuerpo", provider.getUrlImage()));
+        //chats.add(new Chat("Título", "Cuerpo", provider.getUrlImage()));
+
+        //chatsAdapter.notifyDataSetChanged();
+
     }
 
 }
