@@ -3,12 +3,14 @@ package com.nervi.whatsapp;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.util.JsonReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class DataProvider {
@@ -77,13 +79,58 @@ public class DataProvider {
     }
 
     public String getRandomTense() {
+        final JsonReader[] jsonReader = new JsonReader[1];
+        final String[] test = {"hola"};
+        Thread threadToTense = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    jsonReader[0] = new JsonReader(new InputStreamReader(new URL(apiImgUrl).openStream(), "UTF-8"));
+                    System.out.println(new URL(apiImgUrl).openConnection().getContentType());
+                    System.out.println(jsonReader[0].peek() + " 1");
+                    jsonReader[0].beginArray();
+                    System.out.println(jsonReader[0].peek() + " 2");
+                    //jsonReader[0].beginObject();
+                    //System.out.println(jsonReader[0].peek() + " 3");
+                    while (jsonReader[0].hasNext()){
+                            test(jsonReader[0]);
+                    }
+                    jsonReader[0].endArray();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        threadToTense.start();
         //ToDo
-        return "";
+        return test[0];
     }
 
     public String getRandomTitle() {
         //ToDo
         return "";
     }
+
+    public void test(JsonReader reader) throws IOException {
+        reader.beginObject();
+        String test;
+        System.out.println(reader.peek() + " 3");
+        while(reader.hasNext()){
+            System.out.println(reader.peek() + " 4 ----");
+            String key = reader.nextName();
+            if (key.equals("breeds")){
+                reader.beginArray();
+                while (reader.hasNext()){
+                    reader.skipValue();
+                }
+                reader.endArray();
+            }
+            else if (key.equals("url")){
+                test =reader.nextString();
+            }
+        }
+        reader.endObject();
+    }
+
 
 }
