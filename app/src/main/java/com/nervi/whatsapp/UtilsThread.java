@@ -13,12 +13,15 @@ import java.net.URL;
 
 public class UtilsThread extends Thread {
     final String methodName;
-    String result;
+    private String result;
 
     public UtilsThread(String methodName) {
         this.methodName = methodName;
     }
 
+    public String getResult() {
+        return result;
+    }
 
     @Override
     public void run() {

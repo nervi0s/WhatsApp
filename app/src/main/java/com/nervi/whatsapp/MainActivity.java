@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public void generateRandomChat(View view) {
 
         DataProvider provider = new DataProvider();
-        System.out.println(provider.getRandomImageURL());
+        //System.out.println(provider.getRandomImageURL());
         provider.getChatData(chats, chatsAdapter, mainHandler);
         //chats.add(new Chat("Título", "Cuerpo", provider.getUrlImage()));
         //chats.add(new Chat("Título", "Cuerpo", provider.getUrlImage()));
