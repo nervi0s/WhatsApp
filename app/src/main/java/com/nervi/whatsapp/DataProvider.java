@@ -5,6 +5,10 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.JsonReader;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,13 +22,13 @@ public class DataProvider {
     public static final String apiMsgUrl = "https://api.chucknorris.io/jokes/random";
     private URL url;
 
-    public void getUrlImage(ArrayList<Chat> chats, ChatsAdapter chatsAdapter, Handler handler) {
+    public void getChatData(ArrayList<Chat> chats, ChatsAdapter chatsAdapter, Handler handler) {
 
         final String[] randomImageUrl = new String[1];
         final Bitmap[] bitmapImage = new Bitmap[1];
         final String[] bodyMsg = new String[1];
 
-        Thread hiloEvitarProblemasConURLEnMain = new Thread(new Runnable() {
+        Thread hiloEvitarProblemasConLlamadaURLEnMain = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -68,25 +72,34 @@ public class DataProvider {
             }
         });
 
-        hiloEvitarProblemasConURLEnMain.start();
+        hiloEvitarProblemasConLlamadaURLEnMain.start();
 
       /*  try {
-            hiloEvitarProblemasConURLEnMain.join(); //Esperamos a que el hilo termine y nos de un Bitmap válido
+            hiloEvitarProblemasConLlamadaURLEnMain.join(); //Esperamos a que el hilo termine y nos de un Bitmap válido
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
         //return bitmapImage[0];
     }
 
-    public String getRandomTense() {
-        final JsonReader[] jsonReader = new JsonReader[1];
-        final String[] test = {"hola"};
-        Thread threadToTense = new Thread(new Runnable() {
+    public String getRandomImageURL() {
+        //final JsonReader[] jsonReader = new JsonReader[1];
+        final String test = "hola";
+        Thread threadToUrlImage = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    jsonReader[0] = new JsonReader(new InputStreamReader(new URL(apiImgUrl).openStream(), "UTF-8"));
-                    System.out.println(new URL(apiImgUrl).openConnection().getContentType());
+                    InputStreamReader isr = new InputStreamReader(new URL(apiImgUrl).openStream(), "UTF-8");
+                    //jsonReader[0] = new JsonReader(isr);
+                    BufferedReader br = new BufferedReader(isr);
+                    String jsonString = br.readLine();
+                    System.out.println(jsonString);
+                    JSONArray jsonArray = new JSONArray(jsonString);
+                    JSONObject jo = jsonArray.getJSONObject(0);
+                    System.out.println(jsonArray.length());
+                    System.out.println(jo.getString("url"));
+                    /*
+                    System.out.println(jsonReader[0]);
                     System.out.println(jsonReader[0].peek() + " 1");
                     jsonReader[0].beginArray();
                     System.out.println(jsonReader[0].peek() + " 2");
@@ -95,15 +108,15 @@ public class DataProvider {
                     while (jsonReader[0].hasNext()){
                             test(jsonReader[0]);
                     }
-                    jsonReader[0].endArray();
-                } catch (IOException e) {
+                    jsonReader[0].endArray();*/
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-        threadToTense.start();
+        threadToUrlImage.start();
         //ToDo
-        return test[0];
+        return test;
     }
 
     public String getRandomTitle() {
@@ -111,9 +124,9 @@ public class DataProvider {
         return "";
     }
 
-    public void test(JsonReader reader) throws IOException {
+    /*public void test(JsonReader reader) throws IOException {
         reader.beginObject();
-        String test;
+        String test = null;
         System.out.println(reader.peek() + " 3");
         while(reader.hasNext()){
             System.out.println(reader.peek() + " 4 ----");
@@ -125,12 +138,22 @@ public class DataProvider {
                 }
                 reader.endArray();
             }
+            else if (key.equals("id")){
+                test =reader.nextString();
+            }
             else if (key.equals("url")){
+                test =reader.nextString();
+            }
+            else if (key.equals("width")){
+                test =reader.nextString();
+            }
+            else if (key.equals("height")){
                 test =reader.nextString();
             }
         }
         reader.endObject();
-    }
+        System.out.println(test +" 5");
+    }*/
 
 
 }
