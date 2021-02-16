@@ -1,6 +1,8 @@
 package com.nervi.whatsapp;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +38,7 @@ public class ChatsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        System.out.println("asdfgdkjasdhkjasdhjkashdjkashdkjashdjkashdkjashdkjsh");
+        Log.i("ChatsAdapter", "Se ha llamdo al método getView");
         Chat chat = chats.get(i);
 
         if (view == null) {
@@ -47,10 +49,13 @@ public class ChatsAdapter extends BaseAdapter {
         final ImageView chatImage = view.findViewById(R.id.imagenChat);
         final TextView chatTitle = view.findViewById(R.id.tituloMensaje);
         final TextView chatBody = view.findViewById(R.id.cuerpoMensaje);
+        final TextView time = view.findViewById(R.id.fecha);
 
         chatImage.setImageBitmap(chat.getImg());
         chatTitle.setText(chat.getTitle());
         chatBody.setText(chat.getBody());
+        time.setText(chat.getDate());
+        time.setTextColor(chat.isViewed() ? Color.GRAY : Color.GREEN);
 
         return view;
     }

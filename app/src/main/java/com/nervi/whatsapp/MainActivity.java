@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -31,7 +33,14 @@ public class MainActivity extends AppCompatActivity {
         chatsAdapter = new ChatsAdapter(this, chats);
         chatList.setAdapter(chatsAdapter);
 
-
+        chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Chat chat = chats.get(i);
+                chat.setViewed();
+                chatsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.itemCamera) {
-            System.out.println("LOL");
+            Log.i("MainActivity", "Elegido Item para abrir la cámara");
             openCamera();
             return true;
         } else {
@@ -54,23 +63,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        System.out.println(cameraIntent.resolveActivity(getPackageManager()));
         if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            System.out.println("C TEST");
+            Log.i("MainActivity", "Lanzando actividad de la cámara");
             startActivityForResult(cameraIntent, 1);
         }
     }
 
     public void generateRandomChat(View view) {
-
         DataProvider provider = new DataProvider();
-        //System.out.println(provider.getRandomImageURL());
         provider.getChatData(chats, chatsAdapter, mainHandler);
-        //chats.add(new Chat("Título", "Cuerpo", provider.getUrlImage()));
-        //chats.add(new Chat("Título", "Cuerpo", provider.getUrlImage()));
-
-        //chatsAdapter.notifyDataSetChanged();
-
     }
 
 }

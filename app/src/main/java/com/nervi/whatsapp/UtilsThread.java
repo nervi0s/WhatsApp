@@ -68,12 +68,15 @@ public class UtilsThread extends Thread {
             JSONObject jsonObject = new JSONObject(jsonString);
             Log.i("UtilsThreads_getTense", "Length del JSONObject -> " + jsonObject.length());
             randomTense = jsonObject.getString("value");
-            Log.i("UtilsThreads_getTense", "Frase del JSON obtenida -> " + randomTense);
+            Log.i("UtilsThreads_getTense", "Frase del JSON obtenido -> " + randomTense);
 
             br.close();
             isr.close();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+        }
+        if (randomTense.length() > 45) {
+            randomTense = randomTense.substring(0, 46) + "...";
         }
         return randomTense;
     }
