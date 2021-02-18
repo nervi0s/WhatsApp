@@ -11,28 +11,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class UtilsThread extends Thread {
-    final String methodName;
-    private String result;
+public class UtilsThread {
 
-    public UtilsThread(String methodName) {
-        this.methodName = methodName;
-    }
 
-    public String getResult() {
-        return result;
-    }
-
-    @Override
-    public void run() {
-        if (methodName.equalsIgnoreCase("imagen")) {
-            result = getRandomImageURL();
-        } else if (methodName.equalsIgnoreCase("frase")) {
-            result = getRandomTense();
-        }
-    }
-
-    public String getRandomImageURL() {
+    public static String getRandomImageURL() {
         String randomURL = null;
 
         try {
@@ -56,7 +38,7 @@ public class UtilsThread extends Thread {
         return randomURL;
     }
 
-    public String getRandomTense() {
+    public static String getRandomTense() {
         String randomTense = null;
 
         try {

@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void generateRandomChat(View view) {
-        DataProvider provider = new DataProvider();
-        provider.getChatData(chats, chatsAdapter, mainHandler);
+        DataProvider provider = new DataProvider(this);
+        provider.getChatData(chats, chatsAdapter);
     }
 
 }

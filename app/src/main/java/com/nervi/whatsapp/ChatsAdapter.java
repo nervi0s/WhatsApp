@@ -51,7 +51,8 @@ public class ChatsAdapter extends BaseAdapter {
         final TextView chatBody = view.findViewById(R.id.cuerpoMensaje);
         final TextView time = view.findViewById(R.id.fecha);
 
-        chatImage.setImageBitmap(chat.getImg());
+        chatImage.setImageBitmap(chat.getImg()); //Seleccionar uno de los métodos para setear la iamgen
+        //chatImage.setImageResource(R.drawable.boy);
         chatTitle.setText(chat.getTitle());
         chatBody.setText(chat.getBody());
         time.setText(chat.getDate());

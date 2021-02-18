@@ -1,5 +1,6 @@
 package com.nervi.whatsapp;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -12,23 +13,40 @@ import java.util.ArrayList;
 public class DataProvider {
     public static final String apiImgUrl = "https://api.thecatapi.com/v1/images/search";
     public static final String apiMsgUrl = "https://api.chucknorris.io/jokes/random";
+    private Activity activity;
 
-    public void getChatData(ArrayList<Chat> chats, ChatsAdapter chatsAdapter, Handler mainHandler) {
+    public DataProvider(Activity activity) {
+        this.activity = activity;
+    }
 
-        final String[] randomImageUrl = new String[1];
-        final Bitmap[] bitmapImage = new Bitmap[1];
-        final String[] randomTense = new String[1];
+    public void getChatData(ArrayList<Chat> chats, ChatsAdapter chatsAdapter) {
 
-        Thread hiloEvitarProblemasConLlamadaURLEnMain = new Thread(new Runnable() {
+
+        new Thread(new Runnable() { // Hilo anónimo encargado de delegar 2 tareas a otros dos hilos
+            String imgUrl;
+            String tense;
+            Bitmap bitmapImage;
+
             @Override
             public void run() {
+                Thread threadImage = new Thread(new Runnable() { // Hilo encargado de obtener una URL aleatroria de una imagen
+                    @Override
+                    public void run() {
+                        imgUrl = UtilsThread.getRandomImageURL();
+                    }
+                });
 
-                UtilsThread threadImage = new UtilsThread("imagen");
-                UtilsThread threadTense = new UtilsThread("frase");
+                Thread threadTense = new Thread(new Runnable() { // Hilo encargado de obtener una frase aleatoria
+                    @Override
+                    public void run() {
+                        tense = UtilsThread.getRandomTense();
+                    }
+                });
 
                 threadImage.start();
                 threadTense.start();
 
+                // Hacemos que el hilo anónimo espera a que acaben las tareas los 2 hilos a los que llama
                 try {
                     threadImage.join();
                     threadTense.join();
@@ -36,29 +54,23 @@ public class DataProvider {
                     e.printStackTrace();
                 }
 
-                randomImageUrl[0] = threadImage.getResult();
-                randomTense[0] = threadTense.getResult();
-
-                Log.i("DataProvider", "URL de la imagen obtenida -> " + randomImageUrl[0]);
-                Log.i("DataProvider", "Frase obtenida -> " + randomTense[0]);
-
-                //Transformar la URL de la imagen en un Bitmap
+                // Convertimos la imagen proporcionada desde una URL a un Bitmap
                 try {
-                    bitmapImage[0] = BitmapFactory.decodeStream(new URL(randomImageUrl[0]).openConnection().getInputStream());
+                    bitmapImage = BitmapFactory.decodeStream(new URL(imgUrl).openStream());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                mainHandler.post(new Runnable() {
+                // Usamos la actividad pasada como argumento para poder usar el método runOnUiThread() para efectuar cambios en el hilo de la UI
+                activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        chats.add(new Chat("Somos programadores ", randomTense[0], bitmapImage[0]));
+                        chats.add(new Chat("SOMOS ", tense, bitmapImage));
                         chatsAdapter.notifyDataSetChanged();
                     }
                 });
             }
-        });
+        }).start();
 
-        hiloEvitarProblemasConLlamadaURLEnMain.start();
     }
 }
